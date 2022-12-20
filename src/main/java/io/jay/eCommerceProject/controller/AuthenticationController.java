@@ -5,6 +5,7 @@ import io.jay.eCommerceProject.model.CustomUserDetails;
 import io.jay.eCommerceProject.service.CustomUserDetailsService;
 import io.jay.eCommerceProject.utility.JwtUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationManager authenticationManager;
-    private final CustomUserDetailsService userDetailsService;
-    private final JwtUtils jwtUtils;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
 
     @PostMapping("/authenticate")
     public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request) {
@@ -37,9 +40,8 @@ public class AuthenticationController {
         final CustomUserDetails userDetails = userDetailsService
                 .loadUserByUsername(request.getEmail());
 
-
         if (userDetails != null) {
-            return ResponseEntity.ok(jwtUtils.generateToken(userDetails));
+            return ResponseEntity.ok(JwtUtils.generateToken(userDetails));
         }
         return ResponseEntity.status(400).body("Some error has occured.");
     }
