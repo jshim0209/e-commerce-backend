@@ -15,7 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class AuthenticationControllerTest {
+class AuthenticationControllerTest {
 
     @Mock
     private AuthenticationManager authenticationManager;
