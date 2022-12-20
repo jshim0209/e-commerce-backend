@@ -17,15 +17,15 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
-//    private final UserRepository userRepository;
 
     @Override
     public CustomUserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByEmail(email);
 
+        CustomUserDetails userDetails =
+                user.map(CustomUserDetails::new).get();
+
         if (user.isPresent()) {
-            final CustomUserDetails userDetails =
-                    user.map(CustomUserDetails::new).get();
 
             return userDetails;
         } else {
