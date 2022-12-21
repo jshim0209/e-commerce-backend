@@ -47,12 +47,12 @@ class CustomUserDetailsServiceTest {
 
     }
 
-//    @Test
-//    void negativeTest_loadUserByEmail() {
-//        when(userRepository.findByEmail("")).thenReturn(Optional.empty());
-//
-//        Assertions.assertThrows(
-//                UsernameNotFoundException.class, () -> userDetailsService.loadUserByUsername("")
-//        );
-//    }
+    @Test
+    void negativeTest_loadUserByEmail() {
+        when(userRepository.findByEmail("")).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(
+                UsernameNotFoundException.class, () -> userDetailsService.loadUserByUsername("")
+        );
+    }
 }

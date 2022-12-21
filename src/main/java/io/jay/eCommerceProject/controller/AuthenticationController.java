@@ -4,7 +4,6 @@ import io.jay.eCommerceProject.dto.AuthenticationRequest;
 import io.jay.eCommerceProject.model.CustomUserDetails;
 import io.jay.eCommerceProject.service.CustomUserDetailsService;
 import io.jay.eCommerceProject.utility.JwtUtils;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
 public class AuthenticationController {
 
     @Autowired
