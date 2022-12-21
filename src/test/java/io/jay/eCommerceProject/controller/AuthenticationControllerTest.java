@@ -12,6 +12,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,5 +55,24 @@ class AuthenticationControllerTest {
         int expectedStatus = 200;
 
         Assertions.assertEquals(expectedStatus, actualStatus);
+    }
+
+    @Test
+    void negativeTest_invalidCredentials() {
+
+        AuthenticationRequest authenticationRequest =
+                new AuthenticationRequest("email@hotmail.com", "password");
+
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken(
+                        authenticationRequest.getEmail(),
+                        authenticationRequest.getPassword()
+                );
+
+        when(authenticationManager.authenticate(authentication)).thenThrow(BadCredentialsException.class);
+
+        Assertions.assertThrows(BadCredentialsException.class,
+                () -> authenticationController.authenticate(authenticationRequest)
+        );
     }
 }
