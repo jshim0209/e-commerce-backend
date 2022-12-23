@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-//@CrossOrigin(origins = "${allowed.origins}", allowCredentials = "true")
 public class AuthenticationController {
 
     @Autowired
