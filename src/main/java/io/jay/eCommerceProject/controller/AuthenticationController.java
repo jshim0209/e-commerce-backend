@@ -1,12 +1,10 @@
 package io.jay.eCommerceProject.controller;
 
 import io.jay.eCommerceProject.dto.AuthenticationRequest;
-import io.jay.eCommerceProject.model.AuthenticationResponse;
 import io.jay.eCommerceProject.model.CustomUserDetails;
 import io.jay.eCommerceProject.service.CustomUserDetailsService;
 import io.jay.eCommerceProject.utility.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -25,9 +23,7 @@ public class AuthenticationController {
     private CustomUserDetailsService userDetailsService;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest request
-    ) throws BadCredentialsException {
+    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request) {
 
         try {
             authenticationManager.authenticate(
@@ -41,9 +37,8 @@ public class AuthenticationController {
                 .loadUserByUsername(request.getEmail());
 
         if (userDetails != null) {
-            final String jwt = JwtUtils.generateToken(userDetails);
-            return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getId()));
+            return ResponseEntity.ok(JwtUtils.generateToken(userDetails));
         }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new AuthenticationResponse());
+        return ResponseEntity.status(400).body("Some error has occured.");
     }
 }
