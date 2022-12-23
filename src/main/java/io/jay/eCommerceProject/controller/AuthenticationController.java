@@ -1,10 +1,12 @@
 package io.jay.eCommerceProject.controller;
 
 import io.jay.eCommerceProject.dto.AuthenticationRequest;
+import io.jay.eCommerceProject.model.AuthenticationResponse;
 import io.jay.eCommerceProject.model.CustomUserDetails;
 import io.jay.eCommerceProject.service.CustomUserDetailsService;
 import io.jay.eCommerceProject.utility.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,22 +24,26 @@ public class AuthenticationController {
     private CustomUserDetailsService userDetailsService;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<AuthenticationResponse> authenticate(
+            @RequestBody AuthenticationRequest request
+    ) throws BadCredentialsException {
 
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
             );
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("Incorrect username or password", e);
+            throw new BadCredentialsException("Incorrect email or password", e);
         }
 
         final CustomUserDetails userDetails = userDetailsService
                 .loadUserByUsername(request.getEmail());
 
         if (userDetails != null) {
-            return ResponseEntity.ok(JwtUtils.generateToken(userDetails));
+
+            final String jwt = JwtUtils.generateToken(userDetails);
+            return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getId()));
         }
-        return ResponseEntity.status(400).body("Some error has occured.");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new AuthenticationResponse());
     }
 }
