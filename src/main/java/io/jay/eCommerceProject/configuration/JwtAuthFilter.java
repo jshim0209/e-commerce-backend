@@ -2,7 +2,7 @@ package io.jay.eCommerceProject.configuration;
 
 import io.jay.eCommerceProject.model.CustomUserDetails;
 import io.jay.eCommerceProject.service.CustomUserDetailsService;
-import io.jay.eCommerceProject.utility.JwtUtils;
+import io.jay.eCommerceProject.controller.utility.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
