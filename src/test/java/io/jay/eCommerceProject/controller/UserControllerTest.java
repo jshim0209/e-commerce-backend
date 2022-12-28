@@ -86,4 +86,14 @@ class UserControllerTest {
 
         Assertions.assertEquals(expectedStatus, actualStatus);
     }
+
+    @Test
+    void negativeTest_getUserById() throws NotFound {
+
+        when(userService.getUserById(3L)).thenThrow(NotFound.class);
+
+        Assertions.assertThrows(NotFound.class,
+                () -> userController.getUserById("3")
+        );
+    }
 }

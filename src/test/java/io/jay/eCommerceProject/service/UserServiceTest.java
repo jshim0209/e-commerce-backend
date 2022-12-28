@@ -83,4 +83,13 @@ class UserServiceTest {
 
         Assertions.assertEquals(expected, actual);
     }
+
+    @Test
+    void negativeTest_getUserById() throws NotFound {
+        when(userRepository.findById(3L)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(
+                NotFound.class, () -> userService.getUserById(3L)
+        );
+    }
 }
