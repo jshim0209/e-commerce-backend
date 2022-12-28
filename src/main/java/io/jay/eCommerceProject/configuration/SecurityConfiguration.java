@@ -33,6 +33,8 @@ public class SecurityConfiguration {
                 .permitAll()
                 .antMatchers("/**/product-category/**")
                 .permitAll()
+                .antMatchers("/**/users/**")
+                .permitAll()
                 .antMatchers("/**/auth/**")
                 .permitAll()
                 .anyRequest()
