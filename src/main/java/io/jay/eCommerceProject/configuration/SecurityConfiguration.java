@@ -14,8 +14,6 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.accept.ContentNegotiationStrategy;
-import org.springframework.web.accept.HeaderContentNegotiationStrategy;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
