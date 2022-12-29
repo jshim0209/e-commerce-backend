@@ -1,4 +1,4 @@
-package io.jay.eCommerceProject.controller.utility;
+package io.jay.eCommerceProject.utility;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

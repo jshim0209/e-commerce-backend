@@ -4,7 +4,7 @@ import io.jay.eCommerceProject.dto.AuthenticationRequest;
 import io.jay.eCommerceProject.model.AuthenticationResponse;
 import io.jay.eCommerceProject.model.CustomUserDetails;
 import io.jay.eCommerceProject.service.CustomUserDetailsService;
-import io.jay.eCommerceProject.controller.utility.JwtUtils;
+import io.jay.eCommerceProject.utility.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

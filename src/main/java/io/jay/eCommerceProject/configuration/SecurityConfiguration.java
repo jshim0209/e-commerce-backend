@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.accept.ContentNegotiationStrategy;
+import org.springframework.web.accept.HeaderContentNegotiationStrategy;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -25,19 +27,10 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors()
-                .and()
-                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**/products/**")
+                .antMatchers("/api/**")
                 .permitAll()
-                .antMatchers("/**/product-category/**")
-                .permitAll()
-                .antMatchers("/**/users/**")
-                .permitAll()
-                .antMatchers("/**/auth/**")
-                .permitAll()
-                .anyRequest()
+                .antMatchers("/api/orders/**")
                 .authenticated()
                 .and()
                 .sessionManagement()
@@ -45,6 +38,22 @@ public class SecurityConfiguration {
                 .and()
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http
+                .authorizeRequests()
+                .and()
+                .csrf()
+                .ignoringAntMatchers("/h2/**")
+                .and()
+                .headers()
+                .frameOptions()
+                .sameOrigin();
+
+        http
+                .cors()
+                .and()
+                .csrf()
+                .disable();
 
         return http.build();
     }
